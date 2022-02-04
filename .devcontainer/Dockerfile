@@ -3,12 +3,6 @@
 # [Choice] Python version (use -bullseye variants on local arm64/Apple Silicon): 3, 3.10, 3.9, 3.8, 3.7, 3.6, 3-bullseye, 3.10-bullseye, 3.9-bullseye, 3.8-bullseye, 3.7-bullseye, 3.6-bullseye, 3-buster, 3.10-buster, 3.9-buster, 3.8-buster, 3.7-buster, 3.6-buster
 ARG VARIANT="3.10-bullseye"
 FROM mcr.microsoft.com/vscode/devcontainers/python:0-${VARIANT}
-# FROM python:3.10-bullseye
-
-RUN apt-get update && apt-get install -y python3 build-essential python3-pip python3-dev libsdl2-image-dev libsdl2-mixer-dev \
-    libsdl2-ttf-dev libsdl2-dev libsmpeg-dev python3-numpy git \
-    libportmidi-dev libfreetype6-dev libavformat-dev libswscale-dev gnupg2
-
 
 # [Choice] Node.js version: none, lts/*, 16, 14, 12, 10
 # ARG NODE_VERSION="none"
@@ -20,8 +14,9 @@ RUN apt-get update && apt-get install -y python3 build-essential python3-pip pyt
 #    && rm -rf /tmp/pip-tmp
 
 # [Optional] Uncomment this section to install additional OS packages.
-# RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
-#     && apt-get -y install --no-install-recommends <your-package-list-here>
+RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
+   && apt-get -y install --no-install-recommends libsdl2-dev \
+   pulseaudio
 
 # [Optional] Uncomment this line to install global node packages.
 # RUN su vscode -c "source /usr/local/share/nvm/nvm.sh && npm install -g <your-package-here>" 2>&1

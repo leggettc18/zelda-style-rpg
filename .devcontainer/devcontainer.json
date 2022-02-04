@@ -41,13 +41,15 @@
     "mounts": [
         "type=bind,source=/tmp/.X11-unix,target=/tmp/.X11-unix",
         "type=bind,source=/dev/snd,target=/dev/snd",
+        "type=bind,source=/mnt/wslg/,target=/mnt/wslg/"
     ],
     "runArgs": [
         // "--gpus=all",
         "--privileged",
     ],
     "containerEnv": {
-        "DISPLAY": "${localEnv:DISPLAY}"
+        "DISPLAY": "${localEnv:DISPLAY}",
+        "PULSE_SERVER": "${localEnv:PULSE_SERVER}"
     },
     // Comment out connect as root instead. More info: https://aka.ms/vscode-remote/containers/non-root.
     "remoteUser": "vscode",
