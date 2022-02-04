@@ -1,8 +1,12 @@
+"""This Module contains the player class."""
 import pygame
+# pylint:disable=unused-wildcard-import,wildcard-import
 from settings import *
 
 
 class Player(pygame.sprite.Sprite):
+    """Contains data and methods specific to the player entity."""
+
     def __init__(self, pos, groups, obstacle_sprites):
         super().__init__(groups)
         self.image = pygame.image.load(
@@ -16,6 +20,7 @@ class Player(pygame.sprite.Sprite):
         self.obstacle_sprites = obstacle_sprites
 
     def input(self):
+        """Handles keyboard input for the player object"""
         keys = pygame.key.get_pressed()
 
         if keys[pygame.K_UP] or keys[pygame.K_w]:
@@ -33,6 +38,8 @@ class Player(pygame.sprite.Sprite):
             self.direction.x = 0
 
     def move(self, speed):
+        """Controls player movement, including normalizing diagonal vectors and checking
+        for collisions."""
         if self.direction.magnitude() != 0:
             self.direction = self.direction.normalize()
 
@@ -44,6 +51,7 @@ class Player(pygame.sprite.Sprite):
         self.rect.center = self.hitbox.center
 
     def collision(self, direction):
+        """Checks obstacle sprites for a collision in the specified direction."""
         if direction == 'horizontal':
             for sprite in self.obstacle_sprites:
                 if sprite.hitbox.colliderect(self.hitbox):
@@ -61,5 +69,6 @@ class Player(pygame.sprite.Sprite):
                         self.hitbox.bottom = sprite.hitbox.top
 
     def update(self):
+        """Updates the position of the player object according to player input."""
         self.input()
         self.move(self.speed)

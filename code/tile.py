@@ -1,8 +1,11 @@
+"""Sprite Subclass for Tiles (i.e. grass, trees, and rocks)"""
 import pygame
-from settings import *
+from settings import TILESIZE
 
 
 class Tile(pygame.sprite.Sprite):
+    """Stores and manages data for various tile objects (trees, rocks, etc.)"""
+
     def __init__(self, pos, groups, sprite_type, surface=pygame.Surface((TILESIZE, TILESIZE))):
         super().__init__(groups)
         self.sprite_type = sprite_type

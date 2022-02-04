@@ -1,13 +1,18 @@
+"""Module containing classes and functions that manage the state of the level map and camera."""
+from random import choice
 import pygame
+# pylint:disable=wildcard-import,unused-wildcard-import
 from settings import *
 from tile import Tile
 from player import Player
+# pylint:disable=unused-import
 from debug import debug
 from support import *
-from random import choice
 
 
 class Level:
+    """Containts data and functions for managing level state, and sprites"""
+
     def __init__(self):
 
         # get the display surface
@@ -21,6 +26,8 @@ class Level:
         self.create_map()
 
     def create_map(self):
+        """Imports graphics, creates sprites and adds them to sprite groups,
+        and creates the level map."""
         layouts = {
             'boundary': import_csv_layout('../map/map_FloorBlocks.csv'),
             'grass': import_csv_layout('../map/map_Grass.csv'),
@@ -34,6 +41,7 @@ class Level:
             for row_index, row in enumerate(layout):
                 for col_index, col in enumerate(row):
                     if col != '-1':
+                        # pylint:disable=invalid-name
                         x = col_index * TILESIZE
                         y = row_index * TILESIZE
                         if style == 'boundary':
@@ -41,7 +49,8 @@ class Level:
                         if style == 'grass':
                             random_grass_image = choice(graphics['grass'])
                             Tile((x, y), [
-                                 self.visible_sprites, self.obstacle_sprites], 'grass', random_grass_image)
+                                self.visible_sprites, self.obstacle_sprites
+                            ], 'grass', random_grass_image)
                         if style == 'object':
                             surface = graphics['objects'][int(col)]
                             Tile((x, y), [self.visible_sprites,
@@ -50,12 +59,16 @@ class Level:
             (2000, 1500), [self.visible_sprites], self.obstacle_sprites)
 
     def run(self):
+        """Draws and updates all the sprites of the game."""
         # update and draw the game
         self.visible_sprites.custom_draw(self.player)
         self.visible_sprites.update()
 
 
 class YSortCameraGroup(pygame.sprite.Group):
+    """Custom sprite group that sorts sprites by their y coordinate in order for sprite overlaps
+    to happen with the correct perspective."""
+
     def __init__(self):
         # general setup
         super().__init__()
@@ -70,6 +83,7 @@ class YSortCameraGroup(pygame.sprite.Group):
         self.floor_rect = self.floor_surf.get_rect(topleft=(0, 0))
 
     def custom_draw(self, player):
+        """Custom Draw function to handle drawing the sprites offset for the camera position."""
         # getting the offset
         self.offset.x = player.rect.centerx - self.half_width
         self.offset.y = player.rect.centery - self.half_height
