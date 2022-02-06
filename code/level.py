@@ -5,6 +5,7 @@ import pygame
 from settings import *
 from tile import Tile
 from player import Player
+from weapon import Weapon
 # pylint:disable=unused-import
 from debug import debug
 from support import *
@@ -21,6 +22,9 @@ class Level:
         # sprite group setup
         self.visible_sprites = YSortCameraGroup()
         self.obstacle_sprites = pygame.sprite.Group()
+
+        # attack sprites
+        self.current_attack = None
 
         # sprite setup
         self.create_map()
@@ -56,7 +60,22 @@ class Level:
                             Tile((x, y), [self.visible_sprites,
                                  self.obstacle_sprites], 'object', surface)
         self.player = Player(
-            (2000, 1400), [self.visible_sprites], self.obstacle_sprites)
+            (2000, 1400),
+            [self.visible_sprites],
+            self.obstacle_sprites,
+            self.create_attack,
+            self.destroy_attack
+        )
+
+    def create_attack(self):
+        """Creates the Weapon Sprite."""
+        self.current_attack = Weapon(self.player, [self.visible_sprites])
+
+    def destroy_attack(self):
+        """Destroys the current weapon sprite if there is any."""
+        if self.current_attack:
+            self.current_attack.kill()
+        self.current_attack = None
 
     def run(self):
         """Draws and updates all the sprites of the game."""
