@@ -56,7 +56,7 @@ class Level:
                             Tile((x, y), [self.visible_sprites,
                                  self.obstacle_sprites], 'object', surface)
         self.player = Player(
-            (2000, 1500), [self.visible_sprites], self.obstacle_sprites)
+            (2000, 1400), [self.visible_sprites], self.obstacle_sprites)
 
     def run(self):
         """Draws and updates all the sprites of the game."""
