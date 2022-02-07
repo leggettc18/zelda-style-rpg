@@ -10,6 +10,7 @@ class Weapon(pygame.sprite.Sprite):
         # split status at underscore, we only care about the
         # direction which is index 0 in resulting list.
         direction = player.status.split('_', 1)[0]
+
         # Graphic
         full_path = f'../graphics/weapons/{player.weapon}/{direction}.png'
         self.image = pygame.image.load(full_path).convert_alpha()
