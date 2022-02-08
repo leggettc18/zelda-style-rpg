@@ -69,7 +69,8 @@ class Level:
             [self.visible_sprites],
             self.obstacle_sprites,
             self.create_attack,
-            self.destroy_attack
+            self.destroy_attack,
+            self.create_magic
         )
 
     def create_attack(self):
@@ -81,6 +82,12 @@ class Level:
         if self.current_attack:
             self.current_attack.kill()
         self.current_attack = None
+
+    def create_magic(self, style, strength, cost):
+        """Spawns magic spell onto the level"""
+        print(style)
+        print(strength)
+        print(cost)
 
     def run(self):
         """Draws and updates all the sprites of the game."""
