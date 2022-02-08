@@ -1,5 +1,4 @@
 """Manges the state of our UI"""
-from tkinter.tix import TEXT
 import pygame
 # pylint:disable=unused-wildcard-import,wildcard-import
 from settings import *
