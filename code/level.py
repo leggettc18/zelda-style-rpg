@@ -1,6 +1,7 @@
 """Module containing classes and functions that manage the state of the level map and camera."""
 from random import choice
 import pygame
+from enemy import Enemy
 # pylint:disable=wildcard-import,unused-wildcard-import
 from settings import *
 from tile import Tile
@@ -40,7 +41,8 @@ class Level:
         layouts = {
             'boundary': import_csv_layout('../map/map_FloorBlocks.csv'),
             'grass': import_csv_layout('../map/map_Grass.csv'),
-            'object': import_csv_layout('../map/map_Objects.csv')
+            'object': import_csv_layout('../map/map_Objects.csv'),
+            'entities': import_csv_layout('../map/map_Entities.csv')
         }
         graphics = {
             'grass': import_folder('../graphics/grass'),
@@ -64,14 +66,30 @@ class Level:
                             surface = graphics['objects'][int(col)]
                             Tile((x, y), [self.visible_sprites,
                                  self.obstacle_sprites], 'object', surface)
-        self.player = Player(
-            (2000, 1400),
-            [self.visible_sprites],
-            self.obstacle_sprites,
-            self.create_attack,
-            self.destroy_attack,
-            self.create_magic
-        )
+                        if style == 'entities':
+                            if col == '394':
+                                self.player = Player(
+                                    (x, y),
+                                    [self.visible_sprites],
+                                    self.obstacle_sprites,
+                                    self.create_attack,
+                                    self.destroy_attack,
+                                    self.create_magic
+                                )
+                            else:
+                                if col == '390':
+                                    monster_name = 'bamboo'
+                                elif col == '391':
+                                    monster_name = 'spirit'
+                                elif col == '392':
+                                    monster_name = 'raccoon'
+                                else:
+                                    monster_name = 'squid'
+                                Enemy(
+                                    monster_name,
+                                    (x, y),
+                                    [self.visible_sprites]
+                                )
 
     def create_attack(self):
         """Creates the Weapon Sprite."""
