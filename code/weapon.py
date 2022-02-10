@@ -7,6 +7,7 @@ class Weapon(pygame.sprite.Sprite):
 
     def __init__(self, player, groups):
         super().__init__(groups)
+        self.sprite_type = 'weapon'
         # split status at underscore, we only care about the
         # direction which is index 0 in resulting list.
         direction = player.status.split('_', 1)[0]
